@@ -58,31 +58,21 @@ class Controller:
     """
 
     @staticmethod
-    async def get_pokemons_per_page(
-        page: int = 1, limit: int = 20, format: str = "json"
-    ):
-        url = f"{BASE_URL}?offset={(page - 1) * limit}&limit={limit}"
+    async def get_pokemons_per_page(number: int = 20, limit : int = 20):
+        
+        number = str(number)
+        limit = str(limit)
+
+        url = "https://pokeapi.co/api/v2/pokemon/?offset={number}&limit={limit}"
+        
         async with httpx.AsyncClient() as client:
             response = await client.get(url)
-            if response.status_code != 200:
-                raise HTTPException(
-                    status_code=response.status_code,
-                    detail="Error fetching data from PokeAPI",
-                )
-
-            data = response.json()
-            pokemons = data["results"]
-
-        # Ordenar os pokémons por nome
-        pokemons_sorted = sorted(pokemons, key=lambda x: x["name"])
-
-        # Caso seja o REQ seja por XML
-        if format == "xml":
-            return Response(
-                content=pokemons_to_xml(pokemons_sorted), media_type="application/xml"
-            )
-
-        return pokemons_sorted
+            pokemon_data = response.json()
+        
+        # Ordenamos os nomes alfabeticamente
+        pokemon_data['results'].sort(key=lambda x: x['name'])
+        
+        return pokemon_data  # Retorna apenas o
 
     """
     Método [ GET ] para fazer [ REQ ] de um pokémon espécifico
