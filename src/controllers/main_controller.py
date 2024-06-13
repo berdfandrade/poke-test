@@ -72,6 +72,11 @@ class Controller:
         # Ordenamos os nomes alfabeticamente
         pokemon_data['results'].sort(key=lambda x: x['name'])
         
+        if format == "xml":
+            return Response(
+                content=pokemons_to_xml(pokemons_sorted), media_type="application/xml"
+            )
+        
         return pokemon_data  # Retorna apenas o
 
     """

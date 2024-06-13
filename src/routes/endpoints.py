@@ -36,9 +36,14 @@ async def get_all_pokemons(
     summary=EndpointDocs["get_pokemons_per_page"]["summary"],
     description=EndpointDocs["get_pokemons_per_page"]["description"],
 )
-
-async def list_pokemon(number, limit):
-    pokemon_data = await Controller.get_pokemons_per_page(number, limit)
+async def list_pokemon(
+    number,
+    limit,
+    format: str = Query(
+        "json", enum=["json", "xml"], description="Formato da resposta: 'json' ou 'xml'"
+    ),
+):
+    pokemon_data = await Controller.get_pokemons_per_page(number, limit, format=json)
     return pokemon_data
 
 
