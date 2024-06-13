@@ -2,7 +2,12 @@ from fastapi import FastAPI, HTTPException
 from src.routes.endpoints import router as all_endpoints
 import httpx
 
-app = FastAPI()
+app = FastAPI(
+    title="PokéAPI Rocketman",
+    description="API para consulta de Pokémons - Bernardo Andrade | berdfandrade@gmail",
+    version="1.0.0",
+)
+
 
 app.include_router(all_endpoints)
 

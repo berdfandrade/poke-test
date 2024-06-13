@@ -2,4 +2,6 @@ fastapi
 uvicorn
 httpx
 pytest
-pytest-asyncio 
+pytest-asyncio
+pytest-httpx
+fastapi.openapi
