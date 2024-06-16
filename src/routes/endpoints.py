@@ -24,27 +24,28 @@ async def blank_route():
     description=EndpointDocs["get_all_pokemons"]["description"],
 )
 async def get_all_pokemons(
-    format: str = Query("json", description="Formato da resposta: 'json' ou 'xml'")
+    format: str = Query(
+        "json", enum=["json", "xml"], description="Formato da resposta: 'json' ou 'xml'"
+    )
 ):
     pokemons = await Controller.get_pokemons(format=format)
     return pokemons
 
 
 @router.get(
-    "/pokemons/pages/{number}/{limit}",
+    "/pokemons/pages/{page_number}",
     tags=["pokemons"],
     summary=EndpointDocs["get_pokemons_per_page"]["summary"],
     description=EndpointDocs["get_pokemons_per_page"]["description"],
 )
-async def list_pokemon(
-    number,
-    limit,
+async def get_pokemon_pages(
+    page_number: int,
     format: str = Query(
         "json", enum=["json", "xml"], description="Formato da resposta: 'json' ou 'xml'"
     ),
 ):
-    pokemon_data = await Controller.get_pokemons_per_page(number, limit, format=json)
-    return pokemon_data
+    pokemons_data = await Controller.get_pokemons_per_page(page_number=page_number)
+    return pokemons_data
 
 
 @router.get(

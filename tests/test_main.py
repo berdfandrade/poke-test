@@ -1,5 +1,4 @@
 import pytest
-import pytest
 from fastapi import HTTPException
 from fastapi.responses import Response
 from httpx import AsyncClient
@@ -38,23 +37,22 @@ async def test_get_pokemons(httpx_mock):
 
 @pytest.mark.asyncio
 async def test_get_pokemons_per_page(httpx_mock):
-    page = 1
-    limit = 2
+    page_number = 1
     mock_response = {
         "results": [
             {"name": "bulbasaur", "url": "https://pokeapi.co/api/v2/pokemon/1/"},
             {"name": "ivysaur", "url": "https://pokeapi.co/api/v2/pokemon/2/"}
         ],
+        "next": None
     }
 
-    url = f"{BASE_URL}?offset={(page - 1) * limit}&limit={limit}"
-    httpx_mock.add_response(url=url, json=mock_response)
+    httpx_mock.add_response(url=BASE_URL, json=mock_response)
 
-    pokemons = await Controller.get_pokemons_per_page(page=page, limit=limit, format="json")
+    pokemons = await Controller.get_pokemons_per_page(page_number=page_number, format="json")
     assert pokemons == sorted(mock_response["results"], key=lambda x: x["name"])
 
     xml_response = pokemons_to_xml(mock_response["results"])
-    response = await Controller.get_pokemons_per_page(page=page, limit=limit, format="xml")
+    response = await Controller.get_pokemons_per_page(page_number=page_number, format="xml")
     assert response.body.decode() == xml_response
 
 @pytest.mark.asyncio

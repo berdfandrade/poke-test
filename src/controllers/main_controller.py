@@ -1,8 +1,10 @@
 import httpx
 from fastapi import HTTPException, Query
 from fastapi.responses import Response
+from fastapi.responses import JSONResponse
 import xml.etree.ElementTree as ET
 from src.controllers.helpers.xml_helpers import dict_to_xml, pokemons_to_xml
+from src.controllers.helpers.fetch_pokemons import fetch_pokemons_sorted
 
 BASE_URL = "https://pokeapi.co/api/v2/pokemon"
 
@@ -58,26 +60,41 @@ class Controller:
     """
 
     @staticmethod
-    async def get_pokemons_per_page(number: int = 20, limit : int = 20):
-        
-        number = str(number)
-        limit = str(limit)
+    async def get_pokemons_per_page(page_number: int = 1, format: str = "json"):
+        all_pokemons = []
 
-        url = "https://pokeapi.co/api/v2/pokemon/?offset={number}&limit={limit}"
-        
-        async with httpx.AsyncClient() as client:
-            response = await client.get(url)
-            pokemon_data = response.json()
-        
-        # Ordenamos os nomes alfabeticamente
-        pokemon_data['results'].sort(key=lambda x: x['name'])
-        
+        async def fetch_all_pokemons():
+            pokemons = []
+            url = BASE_URL
+
+            async with httpx.AsyncClient() as client:
+                while url:
+                    response = await client.get(url)
+                    if response.status_code != 200:
+                        raise HTTPException(
+                            status_code=response.status_code,
+                            detail="Error fetching data from PokeAPI",
+                        )
+
+                    data = response.json()  # <- Aqui está o problema
+                    pokemons.extend(data["results"])
+                    url = data["next"]
+
+            return pokemons
+
+        all_pokemons = await fetch_all_pokemons()
+        all_pokemons_sorted = sorted(all_pokemons, key=lambda x: x["name"])
+
+        start_index = (page_number - 1) * 20
+        end_index = start_index + 20
+        paginated_pokemons = all_pokemons_sorted[start_index:end_index]
+
         if format == "xml":
             return Response(
-                content=pokemons_to_xml(pokemons_sorted), media_type="application/xml"
+                content=pokemons_to_xml(paginated_pokemons), media_type="application/xml"
             )
-        
-        return pokemon_data  # Retorna apenas o
+
+        return paginated_pokemons
 
     """
     Método [ GET ] para fazer [ REQ ] de um pokémon espécifico
