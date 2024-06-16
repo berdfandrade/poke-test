@@ -3,7 +3,7 @@
 PokéAPI Rocketman é uma API que fornece informações sobre Pokémons, consumindo dados da [PokéAPI](https://pokeapi.co/). Esta API foi desenvolvida por Bernardo Andrade (berdfandrade@gmail) para o teste davaga de desenvolvedor fullstack na Rocketman tech.
 
 ### Deploy 
-A aplicação se encontra em produção [aqui]([https://fast-poke-api.vercel.app/]).
+A aplicação se encontra em produção [aqui](https://fast-poke-api.vercel.app/).
 
 ## Funcionalidades
 
