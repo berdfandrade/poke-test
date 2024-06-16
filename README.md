@@ -89,11 +89,11 @@ Para rodar esta API localmente, siga os passos abaixo:
 
 1. Clone este repositório:
     ```sh
-    git clone https://github.com/seu-usuario/pokeapi-rocketman.git
+    git clone https://github.com/berdfandrade/poke-test
     ```
 2. Navegue até o diretório do projeto:
     ```sh
-    cd pokeapi-rocketman
+    cd poke-test
     ```
 3. Crie um ambiente virtual e ative-o:
     ```sh
@@ -114,17 +114,30 @@ Para rodar esta API localmente, siga os passos abaixo:
 ## Estrutura do Projeto
 
 ```plaintext
+
 ├── app.py
-├── src
-│   ├── controllers
-│   │   ├── helpers
-│   │   │   ├── fetch_pokemons.py
-│   │   │   ├── xml_helpers.py
-│   │   └── controller.py
-│   └── routes
-│       └── endpoints.py
+├── Dockerfile
+├── pytest.ini
+├── README.md
 ├── requirements.txt
+├── src
+│   ├── controllers
+│   │   ├── helpers
+│   │   │   ├── fetch_pokemons.py
+│   │   │   └── xml_helpers.py
+│   │   ├── __init__.py
+│   │   ├── main_controller.py
+│   ├── __init__.py
+│   └── routes
+│       ├── endpoints_docs.py
+│       ├── endpoints.py
+│       ├── __init__.py
+│       ├── metodo.py
+├── start.sh
+├── tests
+│   └── test_main.py
 └── vercel.json
+
 ```
 
 ## Deploy no Vercel
