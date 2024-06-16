@@ -15,10 +15,10 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,  # Permite essas origens
+    allow_origins=origins,  
     allow_credentials=True,
-    allow_methods=["*"],  # Permite todos os métodos (GET, POST, PUT, DELETE, etc)
-    allow_headers=["*"],  # Permite todos os cabeçalhos
+    allow_methods=["*"], 
+    allow_headers=["*"], 
 )
 
 app.include_router(all_endpoints)
