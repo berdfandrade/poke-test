@@ -103,7 +103,7 @@ class Controller:
 
     @staticmethod
     async def get_pokemon_per_name(name: str, format: str = "json"):
-        # Garantir que o nome está em lowercase
+
         name_to_be_search = name.lower()
 
         url = f"{BASE_URL}/{name_to_be_search}"

@@ -4,7 +4,6 @@ from src.routes.endpoints_docs import EndpointDocs
 
 router = APIRouter()
 
-
 @router.get(
     "/",
     tags=["root"],
