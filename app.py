@@ -11,6 +11,7 @@ app = FastAPI(
 
 origins = [
     "http://localhost:5173"
+    "https://pokedex-front-peach.vercel.app/"
 ]
 
 app.add_middleware(
@@ -25,4 +26,4 @@ app.include_router(all_endpoints)
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run(app, host="127.0.0.1", port=8000)
